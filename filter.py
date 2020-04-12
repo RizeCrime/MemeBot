@@ -1,6 +1,6 @@
-
-
-
+from PIL import Image, ImageDraw, ImageFont
+import re
+from sys import argv
 
 def filterFor(filter):
     with open('words.txt', 'r') as wordsFile:
@@ -13,8 +13,36 @@ def filterFor(filter):
     return sorted(words)
 
 
+def textify(word='skills', key='kill'):
+    cutText = re.sub(f'{key}', ',', word)
+    strList = []
+    for subStr in cutText.split(','):
+        strList.append(subStr)
+
+    img = Image.open('images/trustNobody.png')
+    imgWidth, imgHeight = img.size
+
+    font = ImageFont.truetype('arial.ttf', 40)
+    write = ImageDraw.Draw(img)
+
+    ## main word as header
+    strWidth = font.getsize(word)[0]
+    strHeight = font.getsize(word)[1]
+    write.text(((imgWidth/2) - (strWidth/2), 0), word, font=font, fill=(255, 255, 255))
+    ## first part of subString
+    strWidth = font.getsize(strList[0])[0]  
+    write.text((125 - (strWidth/2), 90), strList[0], font=font, fill=(255, 255, 255))
+    ## second part of subString
+    strWidth = font.getsize(strList[1])[0]
+    write.text((imgWidth - strWidth, 100), strList[1], font=font, fill=(255, 255, 255))
+
+    img.save(f'memes/{word}.png')
+
+
 if __name__ == '__main__':
-    words = filterFor('kill')
+    filter = argv[1]
+    words = filterFor(filter)
     for word in words:
-        print(word) 
-    print(words)
+        if word[-len(filter):] != filter and word[:len(filter)] != filter and '-' not in word:
+            print(word) 
+            textify(word=word, key=filter)
