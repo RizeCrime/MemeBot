@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 import re
-from sys import argv
+import sys
+import os
 
 def filterFor(filter):
     with open('words.txt', 'r') as wordsFile:
@@ -36,11 +37,16 @@ def textify(word='skills', key='kill'):
     strWidth = font.getsize(strList[1])[0]
     write.text((imgWidth - strWidth, 100), strList[1], font=font, fill=(255, 255, 255))
 
+    if not os.path.isdir('memes'):
+        os.mkdir('memes')
     img.save(f'memes/{word}.png')
 
 
 if __name__ == '__main__':
-    filter = argv[1]
+    if len(sys.argv) != 2:
+        print('Please enter one keyword. Keyword has to be a string.')
+        sys.exit()
+    filter = sys.argv[1]
     words = filterFor(filter)
     for word in words:
         if word[-len(filter):] != filter and word[:len(filter)] != filter and '-' not in word:
