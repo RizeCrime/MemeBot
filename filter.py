@@ -34,14 +34,14 @@ def getTemplate(template):
         },
         'trustNobody': {
             'image': 'images/trustNobody.png', 
-            'text1': lambda imgWidth=None, strWidth=None: (imgWidth - strWidth, 100),
+            'text1': lambda imgWidth=None, strWidth=None: ((imgWidth - strWidth), 100),
             'text2': lambda imgWidth=None, strWidth=None: (125 - (strWidth/2), 90),
             'font': lambda imgHeight=None: ImageFont.truetype('arial.ttf', int((imgHeight/100 * 13))),
             'color': (255, 255, 255)
         },
         'stab': {
             'image': 'images/stab.png',
-            'text1': lambda imgWidth=None, strWidth=None: (imgWidth - strWidth, 265),
+            'text1': lambda imgWidth=None, strWidth=None: (imgWidth - strWidth - 30, 265),
             'text2': lambda imgWidth=None, strWidth=None: (150 - (strWidth/2), 230),
             'font': lambda imgHeight=None: ImageFont.truetype('arial.ttf', int((imgHeight/100 * 12))),
             'color': (255, 255, 255)
@@ -55,8 +55,8 @@ def getTemplate(template):
         },
         'tag': {
             'image': 'images/tag.jpg',
-            'text1': lambda imgWidth=None, strWidth=None: (680 - (strWidth/2), 300),
-            'text2': lambda imgWidth=None, strWidth=None: (370 - (strWidth/2), 300),
+            'text1': lambda imgWidth=None, strWidth=None: (370 - (strWidth/2), 300),
+            'text2': lambda imgWidth=None, strWidth=None: (680 - (strWidth/2), 300),
             'font': lambda imgHeight=None: ImageFont.truetype('arial.ttf', int((imgHeight/100 * 12))),
             'color': (0, 0, 0)
         },
@@ -117,7 +117,7 @@ if __name__ == '__main__':
         words = filterFor(filter)
         for word in words:
             if word[-len(filter):] != filter and word[:len(filter)] != filter and '-' not in word:
-                print(word) 
+                print(filter, word) 
                 textify(word=word, key=filter)
                 memes += 1
     eTime = time.time()
